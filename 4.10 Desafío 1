@@ -1,0 +1,54 @@
+class Libro:
+    def __init__(self, titulo, autor):
+        self.titulo = titulo
+        self.autor = autor
+        self.disponible = True
+
+    def marcar_como_no_disponible(self):
+        self.disponible = False
+
+    def marcar_como_disponible(self):
+        self.disponible = True
+
+
+class Usuario:
+    def __init__(self, nombre, usuario_id):
+        self.nombre = nombre
+        self.usuario_id = usuario_id
+        self.prestamos = []
+
+    def agregar_prestamo(self, prestamo):
+        self.prestamos.append(prestamo)
+
+    def ver_historial(self):
+        return [prestamo.libro.titulo for prestamo in self.prestamos]
+
+
+class Prestamo:
+    def __init__(self, libro, usuario):
+        self.libro = libro
+        self.usuario = usuario
+        self.libro.marcar_como_no_disponible()
+
+    def devolver_libro(self):
+        self.libro.marcar_como_disponible()
+
+
+class Multa:
+    def __init__(self, usuario, monto):
+        self.usuario = usuario
+        self.monto = monto
+
+
+# Ejemplo de uso
+libro1 = Libro("Cien años de soledad", "Gabriel García Márquez")
+usuario1 = Usuario("Juan Pérez", 1)
+prestamo1 = Prestamo(libro1, usuario1)
+usuario1.agregar_prestamo(prestamo1)
+
+# Ver historial de préstamos del usuario
+print(usuario1.ver_historial())  # Debería imprimir ["Cien años de soledad"]
+
+# Devolver el libro
+prestamo1.devolver_libro()
+print(libro1.disponible)  # True, el libro ahora está disponible
